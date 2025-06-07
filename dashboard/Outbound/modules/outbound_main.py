@@ -1,0 +1,1 @@
+﻿# Main handler para Outbound/CRMfrom fastapi import FastAPIapp = FastAPI()@app.get("/leads")def get_leads():    return {"leads": []}

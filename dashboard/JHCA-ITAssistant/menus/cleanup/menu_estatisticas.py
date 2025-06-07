@@ -1,0 +1,1 @@
+﻿from modules.intelligent_cleaner import IntelligentCleaner_cleaner = IntelligentCleaner()def mostrar_estatisticas():    print("\n[EstatÃ­sticas de Limpeza]")    for k, v in _cleaner.stats.items():        if k == 'freed_space':            print(f"{k}: {v / (1024*1024):.2f} MB")        else:            print(f"{k}: {v}")

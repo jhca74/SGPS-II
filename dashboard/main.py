@@ -1,0 +1,1 @@
+﻿import sysfrom PyQt5.QtWidgets import QApplicationfrom ui.main_dashboard import MainDashboardif __name__ == "__main__":    app = QApplication(sys.argv)    window = MainDashboard()    window.show()    sys.exit(app.exec_())

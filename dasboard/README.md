@@ -1,0 +1,1 @@
+﻿# dasboarddashboar onde a sara vai encaixar para comandar os softwares satelite

@@ -1,0 +1,1 @@
+﻿# MÃ³dulo: itassistantdef executar():    print('Executando mÃ³dulo: itassistant')

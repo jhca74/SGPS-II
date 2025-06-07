@@ -1,0 +1,1 @@
+﻿from fastapi import FastAPIfrom pydantic import BaseModelimport uvicornapp = FastAPI()class Message(BaseModel):    message: str@app.post("/chat")async def chat_with_sara(msg: Message):    return {"reply": f"SARA responde: {msg.message}"}if __name__ == "__main__":    uvicorn.run(app, host="0.0.0.0", port=8000)

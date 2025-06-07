@@ -1,0 +1,1 @@
+﻿# MÃ³dulo: financeirodef executar():    print('Executando mÃ³dulo: financeiro')

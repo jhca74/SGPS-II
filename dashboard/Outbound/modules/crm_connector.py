@@ -1,0 +1,1 @@
+﻿# LigaÃ§Ã£o simulada ao CRM (EspoCRM)def get_crm_leads():    return [{"id": 1, "name": "Empresa Teste"}]

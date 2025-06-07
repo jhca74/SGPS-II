@@ -1,0 +1,1 @@
+﻿version: "3.8"services:  xtts:    build:       context: ./tts_xtts    container_name: xtts_sara    ports:      - "5010:5010"    volumes:      - ./modelo_xtts:/app/modelo_xtts    environment:      - XTTS_MODEL_PATH=/app/modelo_xtts      - XTTS_VOICE_SAMPLE=voz_base_sara.wav    restart: unless-stopped

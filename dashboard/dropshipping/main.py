@@ -1,0 +1,1 @@
+﻿# MÃ³dulo: dropshippingdef executar():    print('Executando mÃ³dulo: dropshipping')

@@ -1,0 +1,1 @@
+﻿fastapiuvicornTTS==0.22.0

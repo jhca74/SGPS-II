@@ -1,0 +1,1 @@
+﻿from huggingface_hub import snapshot_downloadsnapshot_download(    repo_id="coqui/XTTS-v2",    local_dir="Sara/tts_xtts/modelo_xtts",    local_dir_use_symlinks=False)

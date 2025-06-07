@@ -1,0 +1,1 @@
+﻿# sara_aprendizagem_module.pydef registar_feedback(pergunta, resposta, feedback):    with open("memoria/correcao_feedback/log.txt", "a", encoding="utf-8") as f:        f.write(f"{pergunta}|||{resposta}|||{feedback}\n")

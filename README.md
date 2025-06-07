@@ -1,0 +1,1 @@
+﻿# dashboardpainel onde a sara vai encaixar para comandar os satelites 

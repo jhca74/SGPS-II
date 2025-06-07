@@ -1,0 +1,1 @@
+﻿# MÃ³dulo: telecomdef executar():    print('Executando mÃ³dulo: telecom')

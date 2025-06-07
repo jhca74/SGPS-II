@@ -1,0 +1,1 @@
+﻿class GestorMemoria:    def __init__(self):        self.memoria_local = []        def armazenar(self, dado):        self.memoria_local.append(dado)        print("Dado armazenado com sucesso.")        return True

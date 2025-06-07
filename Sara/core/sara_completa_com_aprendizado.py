@@ -1,0 +1,1 @@
+﻿# sara_completa_com_aprendizado.pyfrom sara_aprendizagem_module import registar_feedbackdef responder(pergunta):    resposta = "SimulaÃ§Ã£o de resposta automÃ¡tica."    print(resposta)    feedback = input("Feedback (ðŸ‘/ðŸ‘Ž): ")    registar_feedback(pergunta, resposta, feedback)

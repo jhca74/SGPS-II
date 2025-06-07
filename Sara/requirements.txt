@@ -1,0 +1,1 @@
+﻿fastapi==0.110.0uvicorn==0.29.0requests==2.31.0sentencepiece==0.1.99shellingham==1.5.0datasets==2.19.0python-dotenv==1.0.1pyttsx3==2.90PyQt5==5.15.9numpy==1.24.4scipy>=1.11.2pydantic==1.10.13openai==1.13.3aiofiles==23.2.1aiohttp==3.9.3TTS==0.22scikit-learn==1.3.2

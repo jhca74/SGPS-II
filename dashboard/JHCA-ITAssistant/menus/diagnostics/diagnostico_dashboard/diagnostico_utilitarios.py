@@ -1,0 +1,1 @@
+﻿from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayoutclass DiagnosticoUtilitariosWidget(QWidget):    def __init__(self):        super().__init__()        layout = QVBoxLayout()        layout.addWidget(QLabel("Aqui Ã© a Ã¡rea de utilitÃ¡rios."))        self.setLayout(layout)

@@ -1,0 +1,1 @@
+﻿PyQt5>=5.15.0requests>=2.28.0pillow>=9.5.0pyinstaller>=6.0.0fastapi>=0.103.0uvicorn[standard]>=0.23.0python-telegram-bot>=20.0python-dotenv>=1.0.0sqlite-utils>=3.33

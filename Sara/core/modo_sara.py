@@ -1,0 +1,1 @@
+﻿MODO_ATUAL = "normal"def verificar_modo():    return MODO_ATUALdef atualizar_modo(comando: str):    global MODO_ATUAL    if "pessoa normal" in comando.lower():        MODO_ATUAL = "humano_total"        return "Modo humano_total ativado."    elif "modo normal" in comando.lower():        MODO_ATUAL = "normal"        return "Modo normal ativado."    return None

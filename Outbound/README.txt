@@ -1,0 +1,1 @@
+﻿Outbound/CRM MÃ³dulos- Porta: 8081 (interno no container)- Endpoint: /leads- CRM simulado via crm_connector.py

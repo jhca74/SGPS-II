@@ -1,0 +1,1 @@
+﻿{  "email_remetente": "jhca.optimizer@gmail.com",  "senha_app": "tvgsc...segredo...",  "smtp_server": "smtp.gmail.com",  "smtp_port": 587,  "email_destinatario": "destino@gmail.com",  "ia_endpoint": "http://localhost:8000/perguntar"}  

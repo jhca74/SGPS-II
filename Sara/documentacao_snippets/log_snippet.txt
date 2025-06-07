@@ -1,0 +1,1 @@
+﻿from ia_local.log_interacoes import registar_interacao    registar_interacao(cmd.texto, resposta)

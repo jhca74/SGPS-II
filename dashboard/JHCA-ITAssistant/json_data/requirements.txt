@@ -1,0 +1,1 @@
+﻿PyQt5>=5.15.0configparser>=5.0.0requests>=2.25.0python-telegram-bot>=13.0openai>=0.27.0google-cloud-aiplatform>=1.0.0  # Para Gemininumpy>=1.19.0pandas>=1.2.0psutil>=5.8.0  # Para diagnÃ³sticos do sistemafastapiuvicornopenairequests

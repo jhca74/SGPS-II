@@ -1,0 +1,1 @@
+﻿# MÃ³dulo: foto_lojadef executar():    print('Executando mÃ³dulo: foto_loja')

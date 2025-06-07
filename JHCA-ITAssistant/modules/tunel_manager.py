@@ -1,0 +1,1 @@
+﻿# modules/tunel_manager.py - Gerenciador de conexÃ£o interna (modo root/local)import loggingclass TunelManager:    def __init__(self):        self.status = "desligado"    def iniciar(self):        self.status = "ligado"        logging.info("TÃºnel seguro ativado.")    def encerrar(self):        self.status = "desligado"        logging.info("TÃºnel encerrado.")

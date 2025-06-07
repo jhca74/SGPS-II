@@ -1,0 +1,1 @@
+﻿#!/bin/bashecho "ðŸš€ A iniciar ambiente CRM + FastAPI + Redis..."# ValidaÃ§Ã£o de .envif [ ! -f .env ]; then    echo "âŒ Ficheiro .env nÃ£o encontrado. Abortando."    exit 1fi# Subir os containersdocker-compose -f 71fcb70f-68bc-4a31-8d58-b0c80547e299.yml up -d# Verificar estadodocker ps

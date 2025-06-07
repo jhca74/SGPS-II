@@ -1,0 +1,1 @@
+﻿from ia_local.estado_emocional import atualizar_emoÃ§Ã£ofrom ia_local.responder_com_emoÃ§Ã£o import responder_com_emoÃ§Ã£o# Substituir:# falar(resposta)# por:responder_com_emoÃ§Ã£o(resposta)atualizar_emoÃ§Ã£o("neutro")  # ou baseado em anÃ¡lise de sentimento

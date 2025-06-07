@@ -1,0 +1,1 @@
+﻿{    "GERAL": {        "debug_mode": true,        "idioma": "pt-PT"    },    "SUPERADMIN": {        "email": "info@jhca.pt",        "telemovel": "+351938682030"    },    "IA": {        "tema_inicial": "inteligÃªncia artificial"    },    "TOKENS": {        "OPENAI": "",        "GEMINI": "",        "DEEPSEEK": "",        "GITHUB": "",        "TELEGRAM_BOT": ""    }}

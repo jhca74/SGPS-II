@@ -1,0 +1,1 @@
+﻿import requestsfrom bs4 import BeautifulSoupdef scrape_duckduckgo(query):    url = f"https://html.duckduckgo.com/html/?q={query}"    response = requests.get(url)    soup = BeautifulSoup(response.text, "html.parser")    results = [a.text for a in soup.find_all("a", class_="result__a")]    return results[:5]

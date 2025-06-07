@@ -1,0 +1,1 @@
+﻿from PyQt5.QtWidgets import QWidget, QVBoxLayoutclass CompendiumTab(QWidget):    def __init__(self):        super().__init__()        self.layout = QVBoxLayout()        self.setLayout(self.layout)

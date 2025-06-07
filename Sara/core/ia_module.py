@@ -1,0 +1,1 @@
+﻿# ia_module.pydef processar_input(texto):    # LÃ³gica simples de exemplo para processar texto    texto_processado = texto.strip().lower()    return f"Texto processado: {texto_processado}"

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Financeiro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 50%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Relatório Financeiro: {{ ticker }}</h1>
+    <p><strong>P/L:</strong> {{ pe_ratio }}</p>
+    <p><strong>Dividend Yield:</strong> {{ dividend_yield|round(2) }}%</p>
+    <p><strong>Previsão para amanhã:</strong> ${{ predicted_price|round(2) }}</p>
+    <p><strong>Sentimento de notícias:</strong> {{ sentiment|round(2) }}</p>
+    <h2>Últimos Preços</h2>
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Preço (USD)</th>
+            <th>RSI</th>
+        </tr>
+        {% for date, row in recent_data.items() %}
+        <tr>
+            <td>{{ date }}</td>
+            <td>${{ row.Close|round(2) }}</td>
+            <td>{{ row.RSI|round(2) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><a href="/asset/EDP.LS">Ver EDP (PSI-20)</a> | <a href="/asset/O">Ver Realty Income (REIT)</a> | <a href="/asset/crypto-bitcoin">Ver Bitcoin</a></p>
+</body>
+</html>

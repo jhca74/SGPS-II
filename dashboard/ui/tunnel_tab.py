@@ -1,0 +1,1 @@
+﻿from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabelclass TunnelTab(QWidget):    def __init__(self):        super().__init__()        self.layout = QVBoxLayout()        self.label = QLabel("Interface de TÃºnel (TunnelTab)")        self.layout.addWidget(self.label)        self.setLayout(self.layout)

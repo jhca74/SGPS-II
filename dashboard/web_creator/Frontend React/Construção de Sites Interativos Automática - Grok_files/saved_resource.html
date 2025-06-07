@@ -1,0 +1,420 @@
+
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script>
+const topWindowOrigin = 'https://grok.com';
+
+function logError(message) {
+  const messageStr = JSON.stringify({type: 'console_message', level: 'error', message});
+  window.top.postMessage(messageStr, topWindowOrigin);
+};
+
+function logWarning(message) {
+  const messageStr = JSON.stringify({type: 'console_message', level: 'warn', message});
+  window.top.postMessage(messageStr, topWindowOrigin);
+}
+
+function logMessage(message) {
+  const messageStr = JSON.stringify({type: 'console_message', level: 'log', message});
+  window.top.postMessage(messageStr, topWindowOrigin);
+}
+
+const _windowOnerror = window.onerror;
+window.onerror = (...args) => {
+  logError(args[0]);
+  return _windowOnerror ? _windowOnerror(...args) : undefined;
+};
+
+const _windowOnunhandledrejection = window.onunhandledrejection;
+window.onunhandledrejection = function(event) {
+  let message = 'Error: onunhandledrejection';
+  if (event && event.reason && event.reason.message) {
+    message = event.reason.message;
+  }
+
+  logError(message);
+  return _windowOnunhandledrejection ? _windowOnunhandledrejection(...args) : undefined;
+};
+
+const _consoleError = console.error;
+console.error = function(...args) {
+  if (args[0] instanceof Error) {
+    logError(args[0].message);
+  } else {
+    logError(...args);
+  }
+  return _consoleError(...args);
+};
+
+const _consoleLog = console.log;
+console.log = function(...args) {
+  logMessage(...args);
+  return _consoleLog(...args);
+};
+
+const _consoleWarning = console.warn;
+console.warn = function(...args) {
+  logWarning(...args);
+  return _consoleWarning(...args);
+};
+
+</script>
+<script>
+  document.addEventListener('click', function(event) {
+    const anchor = event.target.closest('a');
+    if (anchor && anchor.getAttribute('href').startsWith('#')) {
+      event.preventDefault();
+      const targetId = anchor.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  });
+</script><script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script>
+
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Site Builder with Google OAuth</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <script src="https://cdn.tailwindcss.com/"></script>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}</style></head>
+<body classname="bg-gray-100 dark:bg-gray-900 transition-colors" style="margin: 0px;">
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"; // Substitua pelo seu Client ID
+    const REDIRECT_URI = "http://localhost:9000/callback";
+    const SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
+
+    function App() {
+      const [user, setUser] = useState(null);
+      const [inputText, setInputText] = useState('');
+      const [generatedCode, setGeneratedCode] = useState('');
+      const [previewUrl, setPreviewUrl] = useState('');
+      const [language, setLanguage] = useState('html');
+      const [theme, setTheme] = useState('light');
+      const [siteTheme, setSiteTheme] = useState('blue');
+      const [error, setError] = useState('');
+      const [projects, setProjects] = useState([]);
+
+      const toggleTheme = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light');
+        document.body.classList.toggle('dark');
+      };
+
+      const loginWithGoogle = () => {
+        const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPE}&access_type=offline`;
+        window.location.href = authUrl;
+      };
+
+      const handleCallback = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+          try {
+            const response = await fetch('http://localhost:8000/auth/google', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code, redirect_uri: REDIRECT_URI }),
+            });
+            const data = await response.json();
+            if (data.error) {
+              setError(data.error);
+              return;
+            }
+            setUser({ email: data.email, token: data.access_token });
+            localStorage.setItem('token', data.access_token);
+            window.history.replaceState({}, document.title, window.location.pathname);
+            fetchProjects(data.access_token);
+          } catch (err) {
+            setError('Failed to authenticate with Google');
+          }
+        }
+      };
+
+      const fetchProjects = async (token) => {
+        try {
+          const response = await fetch('http://localhost:8000/projects', {
+            headers: { 'Authorization': `Bearer ${token}` },
+          });
+          const data = await response.json();
+          setProjects(data);
+        } catch (err) {
+          setError('Failed to fetch projects');
+        }
+      };
+
+      const generateSite = async () => {
+        setError('');
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setError('Please login to generate a site');
+          return;
+        }
+        try {
+          const response = await fetch('http://localhost:8000/generate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ text: inputText, language, theme: siteTheme }),
+          });
+          const data = await response.json();
+          if (data.error) {
+            setError(data.error);
+            return;
+          }
+          setGeneratedCode(data.code);
+          if (language === 'html') {
+            const blob = new Blob([data.code], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            setPreviewUrl(url);
+          } else {
+            setPreviewUrl('');
+          }
+          fetchProjects(token);
+        } catch (error) {
+          setError('Failed to generate site. Ensure the backend is running on http://localhost:8000');
+        }
+      };
+
+      const exportSite = () => {
+        if (!generatedCode) {
+          setError('No code to export. Generate a site first.');
+          return;
+        }
+        const zip = new JSZip();
+        zip.file('index.html', generatedCode);
+        zip.generateAsync({ type: 'blob' }).then((content) => {
+          saveAs(content, 'site.zip');
+        });
+      };
+
+      useEffect(() => {
+        handleCallback();
+        const token = localStorage.getItem('token');
+        if (token) {
+          fetch('http://localhost:8000/verify', {
+            headers: { 'Authorization': `Bearer ${token}` },
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.email) {
+                setUser({ email: data.email, token });
+                fetchProjects(token);
+              } else {
+                localStorage.removeItem('token');
+              }
+            })
+            .catch(() => localStorage.removeItem('token'));
+        }
+      }, []);
+
+      return (
+        <div className="container mx-auto p-6 max-w-4xl">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+              AI-Powered Site Builder
+            </h1>
+            <div className="flex items-center space-x-4">
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-gray-700 dark:text-gray-300">{user.email}</span>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('token');
+                      setUser(null);
+                      setProjects([]);
+                    }}
+                    className="p-2 rounded bg-red-500 text-white hover:bg-red-600"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={loginWithGoogle}
+                  className="p-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                >
+                  Login with Google
+                </button>
+              )}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+              >
+                {theme === 'light' ? 'Dark' : 'Light'} Mode
+              </button>
+            </div>
+          </div>
+          {user && (
+            <>
+              <div className="mb-6">
+                <label className="block mb-2 text-gray-700 dark:text-gray-300">Select Language:</label>
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
+                >
+                  <option value="html">HTML/Tailwind/JavaScript</option>
+                  <option value="python">Python</option>
+                  <option value="cpp">C++</option>
+                  <option value="java">Java</option>
+                </select>
+              </div>
+              <div className="mb-6">
+                <label className="block mb-2 text-gray-700 dark:text-gray-300">Site Theme Color:</label>
+                <select
+                  value={siteTheme}
+                  onChange={(e) => setSiteTheme(e.target.value)}
+                  className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
+                >
+                  <option value="blue">Blue</option>
+                  <option value="green">Green</option>
+                  <option value="red">Red</option>
+                  <option value="purple">Purple</option>
+                </select>
+              </div>
+              <div className="mb-6">
+                <label className="block mb-2 text-gray-700 dark:text-gray-300">
+                  Describe your site (e.g., "Create a portfolio site with a fixed navbar, a hero section, a project grid, and a contact form"):
+                </label>
+                <textarea
+                  className="w-full h-40 p-3 border rounded bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
+                  placeholder="e.g., Create a portfolio site with a fixed navbar, a hero section with a blue background, a project grid, and a contact form"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                ></textarea>
+              </div>
+              {error && (
+                <div className="mb-6 p-3 bg-red-100 text-red-700 rounded">{error}</div>
+              )}
+              <div className="flex space-x-4">
+                <button
+                  onClick={generateSite}
+                  className="flex-1 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                >
+                  Generate Site
+                </button>
+                <button
+                  onClick={exportSite}
+                  className="flex-1 py-3 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                >
+                  Export as ZIP
+                </button>
+              </div>
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                    Generated Code
+                  </h2>
+                  <pre className="bg-gray-800 text-gray-100 p-4 rounded-lg overflow-auto max-h-96">
+                    {generatedCode || '// No code generated yet'}
+                  </pre>
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                    Preview
+                  </h2>
+                  {previewUrl ? (
+                    <iframe
+                      src={previewUrl}
+                      className="w-full h-96 border rounded-lg"
+                      title="Site Preview"
+                    ></iframe>
+                  ) : (
+                    <div className="w-full h-96 border rounded-lg flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+                      {language === 'html'
+                        ? 'Generate an HTML site to see the preview'
+                        : 'Preview not available for this language'}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="mt-8">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                  Your Projects
+                </h2>
+                {projects.length > 0 ? (
+                  <div className="space-y-4">
+                    {projects.map(project => (
+                      <div key={project.id} className="p-4 bg-gray-200 dark:bg-gray-800 rounded-lg">
+                        <p className="text-gray-800 dark:text-gray-100"><strong>Description:</strong> {project.text}</p>
+                        <p className="text-gray-600 dark:text-gray-400"><strong>Language:</strong> {project.language}</p>
+                        <p className="text-gray-600 dark:text-gray-400"><strong>Theme:</strong> {project.theme}</p>
+                        <p className="text-gray-600 dark:text-gray-400"><strong>Created:</strong> {project.timestamp}</p>
+                        <button
+                          onClick={() => {
+                            setGeneratedCode(project.code);
+                            if (project.language === 'html') {
+                              const blob = new Blob([project.code], { type: 'text/html' });
+                              setPreviewUrl(URL.createObjectURL(blob));
+                            }
+                          }}
+                          className="mt-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                          View Code
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-600 dark:text-gray-400">No projects yet. Generate a site to get started!</p>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+
+</body></html>

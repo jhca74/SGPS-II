@@ -1,0 +1,1 @@
+﻿PyQt5==5.15.7fastapi==0.103.0uvicorn==0.23.2requests==2.31.0pytesseract==0.3.10Pillow==10.0.0python-docx==0.8.11PyMuPDF==1.22.5pyautogui==0.9.54

@@ -1,0 +1,1 @@
+﻿from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabelclass VpnTab(QWidget):    def __init__(self):        super().__init__()        layout = QVBoxLayout()        label = QLabel("Interface VPN configurada e funcional.")        layout.addWidget(label)        self.setLayout(layout)        

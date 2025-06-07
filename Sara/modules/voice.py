@@ -1,0 +1,1 @@
+﻿import sounddevice as sdclass VoiceListener:    def __init__(self):        self.sample_rate = 44100    def listen(self):        print("ðŸ”Š Ouvindo... (Diga 'SARA, para' ou 'SARA, continua')")        # LÃ³gica de captura de Ã¡udio aqui

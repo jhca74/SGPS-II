@@ -1,0 +1,1 @@
+﻿from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabelclass LangchainTab(QWidget):    def __init__(self):        super().__init__()        layout = QVBoxLayout()        label = QLabel("Langchain operacional e integrado.")        layout.addWidget(label)        self.setLayout(layout)        

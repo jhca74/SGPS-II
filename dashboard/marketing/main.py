@@ -1,0 +1,1 @@
+﻿# MÃ³dulo: marketingdef executar():    print('Executando mÃ³dulo: marketing')

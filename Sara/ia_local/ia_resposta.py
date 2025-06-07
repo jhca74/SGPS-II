@@ -1,0 +1,1 @@
+﻿from ia_local.phi3_wrapper import Phi3Wrapperdef responder_ia_local(prompt: str):    wrapper = Phi3Wrapper()    return wrapper.query(prompt)
