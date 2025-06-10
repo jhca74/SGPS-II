@@ -1,1 +1,36 @@
-﻿version: "3.8"services:  xtts:    build:       context: ./tts_xtts    container_name: xtts_sara    ports:      - "5010:5010"    volumes:      - ./modelo_xtts:/app/modelo_xtts    environment:      - XTTS_MODEL_PATH=/app/modelo_xtts      - XTTS_VOICE_SAMPLE=voz_base_sara.wav    restart: unless-stopped
+﻿version: "3.8"
+
+services:
+  tts_router:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tts_router_sara
+    ports:
+      - "5010:5000"
+    restart: unless-stopped
+
+  melotts:
+    build:
+      context: ../tts_melo
+    container_name: melotts_sara
+    ports:
+      - "5011:5000"
+    restart: unless-stopped
+
+  parler:
+    build:
+      context: ../tts_parler
+    container_name: parler_sara
+    ports:
+      - "5012:5000"
+    restart: unless-stopped
+
+  xtts:
+    build:
+      context: ../tts_xtts
+    container_name: xtts_sara
+    ports:
+      - "5013:5000"
+    restart: unless-stopped
+

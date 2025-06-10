@@ -1,20 +1,25 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libasound2-dev \
+    ffmpeg \
+    espeak \
+    git \
+    curl \
+    && apt-get clean
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    ffmpeg \
-    build-essential \
-    libsndfile1 \
-    && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-COPY . /app
+COPY . .
 
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+CMD ["python", "backend.py"]
 
-CMD ["uvicorn", "main_backend:app", "--host", "0.0.0.0", "--port", "8001"]
+
 
 
 
