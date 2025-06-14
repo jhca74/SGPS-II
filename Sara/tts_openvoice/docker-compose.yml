@@ -1,9 +1,9 @@
-﻿version: "3.8"
+version: "3.8"
 
 services:
   tts_router:
     build:
-      context: .
+      context: C:/Users/anjos/Desktop/SGPS/Sara/tts_openvoice
       dockerfile: Dockerfile
     container_name: tts_router_sara
     ports:
@@ -12,7 +12,7 @@ services:
 
   melotts:
     build:
-      context: ../tts_melo
+      context: C:/Users/anjos/Desktop/SGPS/Sara/tts_melo
     container_name: melotts_sara
     ports:
       - "5011:5000"
@@ -20,7 +20,7 @@ services:
 
   parler:
     build:
-      context: ../tts_parler
+      context: C:/Users/anjos/Desktop/SGPS/Sara/tts_parler
     container_name: parler_sara
     ports:
       - "5012:5000"
@@ -28,9 +28,8 @@ services:
 
   xtts:
     build:
-      context: ../tts_xtts
+      context: C:/Users/anjos/Desktop/SGPS/Sara/tts_xtts
     container_name: xtts_sara
     ports:
       - "5013:5000"
     restart: unless-stopped
-

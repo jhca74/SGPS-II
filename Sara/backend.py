@@ -1,78 +1,111 @@
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
-import os
-import requests
-import logging
+import requests, os
 
-# --- Carregar variáveis de ambiente ---
 load_dotenv()
-SARA_TTS_URL = os.getenv("SARA_TTS_URL", "http://localhost:5010/falar")
-SARA_MODE = os.getenv("SARA_MODE", "normal")
 
-# --- Inicializar logs ---
-logging.basicConfig(level=logging.INFO)
+app = FastAPI()
 
-# --- FastAPI App ---
-app = FastAPI(
-    title="Sara Backend",
-    description="API principal da IA Sara",
-    version="1.0.0"
-)
-
-# --- CORS (libertar chamadas locais/web) ---
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# --- Modelo para entrada de texto ---
 class Mensagem(BaseModel):
-    texto: str
+    mensagem: str
+    emissor: str
 
-# --- Endpoint de saúde ---
-@app.get("/status")
-def status():
-    return {"status": "online", "modo": SARA_MODE}
+estado_sara = {"modo": "normal"}
 
-# --- Endpoint principal da Sara (fala) ---
-@app.post("/falar")
-def falar(mensagem: Mensagem):
-    texto = mensagem.texto
-    logging.info(f"[SARA] Recebido: {texto}")
-
+def consultar_ollama(mensagem):
     try:
-        # Envia para o TTS
-        resposta = requests.post(SARA_TTS_URL, json={"texto": texto})
-        if resposta.status_code == 200:
-            return {"voz": "gerada", "mensagem": texto}
+        resposta = requests.post("http://localhost:11434/api/generate", json={
+            "model": "deepseek-r1:8b",
+            "prompt": mensagem,
+            "stream": False
+        }, timeout=30)
+
+        dados = resposta.json()
+        print("🧠 DEBUG (resposta do Ollama):", dados)
+
+        if "response" in dados:
+            return dados["response"]
+        elif "text" in dados:
+            return dados["text"]
         else:
-            logging.error("Erro TTS")
-            return {"erro": "TTS não respondeu"}
+            return f"[IA local: formato inesperado] → {dados}"
 
     except Exception as e:
-        logging.error(f"Erro na fala: {e}")
-        return {"erro": str(e)}
+        print("❌ ERRO no consultar_ollama:", str(e))
+        return "[Erro IA local]"
 
-# --- Fallback simples ---
+def consultar_gpt(mensagem):
+    from langchain.chat_models import ChatOpenAI
+    from langchain.schema import HumanMessage
+    try:
+        openai_api_key = os.getenv("OPENAI_API_KEY")
+        chat = ChatOpenAI(openai_api_key=openai_api_key, model_name="gpt-4", temperature=0)
+        resposta = chat([HumanMessage(content=mensagem)])
+        return resposta.content
+    except:
+        return "[Erro GPT]"
+
+def consultar_claude(mensagem):
+    import anthropic
+    try:
+        client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        resposta = client.messages.create(
+            model="claude-3-opus-20240229",
+            max_tokens=1000,
+            temperature=0.5,
+            messages=[{"role": "user", "content": mensagem}]
+        )
+        return resposta.content[0].text if resposta.content else "[Erro Claude]"
+    except:
+        return "[Erro Claude]"
+
+def consultar_gemini(mensagem):
+    try:
+        import google.generativeai as genai
+        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+        model = genai.GenerativeModel("gemini-pro")
+        resposta = model.generate_content(mensagem)
+        return resposta.text if hasattr(resposta, 'text') else "[Erro Gemini]"
+    except:
+        return "[Erro Gemini]"
+
 @app.post("/responder")
-def responder(mensagem: Mensagem):
-    texto = mensagem.texto.lower()
+def responder(dados: Mensagem):
+    pergunta = dados.mensagem.lower()
 
-    if "sara" in texto and "normal" in texto:
-        global SARA_MODE
-        SARA_MODE = "humano_total"
-        return {"resposta": "Modo humano_total ativado"}
+    if "sara se natural" in pergunta:
+        estado_sara["modo"] = "humano_total"
+        return {"resposta": "Modo humano_total ativado."}
+    elif "sara se profissional" in pergunta:
+        estado_sara["modo"] = "normal"
+        return {"resposta": "Modo normal ativado."}
 
-    return {"resposta": f"Sara respondeu: {texto}"}
+    resposta = ""
+    if estado_sara["modo"] == "humano_total":
+        resposta = consultar_claude(dados.mensagem)
+    else:
+        resposta = consultar_ollama(dados.mensagem)
+        if not resposta or resposta.strip() == "":
+            resposta = consultar_gpt(dados.mensagem)
+        if not resposta or resposta.strip() == "":
+            resposta = consultar_claude(dados.mensagem)
+        if not resposta or resposta.strip() == "":
+            resposta = consultar_gemini(dados.mensagem)
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("backend:app", host="0.0.0.0", port=8001, reload=True)
-# --- Iniciar o servidor com Uvicorn ---
-# Para iniciar o servidor, execute:
-# uvicorn backend:app --host
+    os.makedirs("compendio", exist_ok=True)
+    with open("compendio/historico_conversas.txt", "a", encoding="utf-8") as f:
+        f.write(f"Pergunta: {dados.mensagem}\n")
+        f.write(f"Resposta: {resposta}\n\n")
+
+    return {"resposta": resposta}
+
+@app.get("/status")
+def status():
+    return {"estado": "Sara operacional", "modo": estado_sara["modo"]}
+
+@app.post("/falar")
+def falar(dados: Mensagem):
+    with open("voz_sara/output.txt", "w", encoding="utf-8") as f:
+        f.write(dados.mensagem)
+    return {"mensagem": "Texto recebido para falar."}

@@ -1,21 +1,10 @@
-FROM python:3.11-slim  # <- esta versão é mais segura para TTS
-
+FROM python:3.11-slim
 WORKDIR /app
+COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
+CMD ["python", "tts_openvoice_server.py"]
 
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    ffmpeg \
-    espeak \
-    build-essential \
-    libsndfile1 \
-    && rm -rf /var/lib/apt/lists/*
 
-COPY . /app
-
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
 
 
 
